@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   respond_to :html, :json
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /users
   # GET /users.json
   def index
@@ -25,8 +25,6 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-  
-    logger.debug " ---- User params : #{user_params}"
     @user = User.new(user_params)
 
     respond_to do |format|
@@ -72,6 +70,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :client_registration_id)
+      params.require(:user).permit(:firstName, :lastName, :email, :password, :phoneNumber, :clientRegistrationId)
     end
 end

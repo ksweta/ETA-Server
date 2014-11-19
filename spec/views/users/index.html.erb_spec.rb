@@ -4,18 +4,20 @@ RSpec.describe "users/index", :type => :view do
   before(:each) do
     assign(:users, [
       User.create!(
-        :first_name => "First Name",
-        :last_name => "Last Name",
+        :firstName => "First Name",
+        :lastName => "Last Name",
         :email => "Email",
         :password => "Password",
-        :client_registration_id => "Client Registration"
+        :phoneNumber => "Phone Number",
+        :clientRegistrationId => "Client Registration"
       ),
       User.create!(
-        :first_name => "First Name",
-        :last_name => "Last Name",
+        :firstName => "First Name",
+        :lastName => "Last Name",
         :email => "Email",
         :password => "Password",
-        :client_registration_id => "Client Registration"
+        :phoneNumber => "Phone Number",
+        :clientRegistrationId => "Client Registration"
       )
     ])
   end
@@ -26,6 +28,7 @@ RSpec.describe "users/index", :type => :view do
     assert_select "tr>td", :text => "Last Name".to_s, :count => 2
     assert_select "tr>td", :text => "Email".to_s, :count => 2
     assert_select "tr>td", :text => "Password".to_s, :count => 2
+    assert_select "tr>td", :text => "Phone Number".to_s, :count => 2
     assert_select "tr>td", :text => "Client Registration".to_s, :count => 2
   end
 end
