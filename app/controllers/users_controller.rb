@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   respond_to :html, :json
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  
+  before_action :set_user_by_phone, only: [:login, :receipientRegistered]
   # GET /users
   # GET /users.json
   def index
@@ -13,9 +13,40 @@ class UsersController < ApplicationController
   def show
   end
 
+  # POST /users/login.json
+  def login
+    # This method verifies the users credential, and returns 200 status code
+    # if credential is valid otherwise 401 status code.
+    logger.info " ------- users/login user : #{@user}"
+    respond_to do |format|
+      if @user and @user.password == params[:password]
+        format.json { head :ok }
+      else        
+        error_msg = { :error => "Wrong credential. Please check your credential"}
+        format.json { render json: error_msg, status: :unauthorized}
+      end
+    end
+  end
+
+  # POST /users/receipientRegistered.json
+  def receipientRegistered
+    # This method verifies the phoneNumber whether the given phone number 
+    # is registered with ETA service.
+    logger.info " ------ /users/receipientRegistered.json, user : #{@user}"
+    respond_to do |format|
+      if @user
+        format.json { head :ok }
+      else
+        error_msg = { :error => "User(#{params[:phoneNumber]}) is not registered with ETA" }
+        format.json { render json: error_msg, status: :not_found }
+      end
+    end
+  end
+
   # GET /users/new
   def new
     @user = User.new
+   
   end
 
   # GET /users/1/edit
@@ -70,8 +101,12 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
+    def set_user_by_phone
+      @user = User.find_by_phoneNumber(params[:phoneNumber])
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:name, :email, :password, :phoneNumber, :clientRegistrationId)
     end
+
 end
