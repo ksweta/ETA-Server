@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe SendEtaController, :type => :controller do
+RSpec.describe NotificationController, :type => :controller do
 
-  describe "GET sendMessage" do
+  describe "GET sendETA" do
     it "returns http success" do
-      get :sendMessage
+      get :sendETA
       expect(response).to have_http_status(:success)
     end
   end
