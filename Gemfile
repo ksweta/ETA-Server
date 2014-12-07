@@ -47,3 +47,8 @@ group :development, :test do
  gem 'execjs'
  gem 'therubyracer', :platforms => :ruby
 end
+
+group :production do
+   gem 'pg'
+   gem 'rails_12factor'
+end
