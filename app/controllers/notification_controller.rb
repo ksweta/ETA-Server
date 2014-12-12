@@ -35,9 +35,9 @@ class NotificationController < ApplicationController
         logger.info " ---- Send ETA GCM option : #{options}"
         logger.info " ---- Send ETA client registration : #{@user.clientRegistrationId}"
         response = gcm.send([@user.clientRegistrationId], options)
-        logger.info " --- Send ETA GCM response : {response}"
-        if response   # .status_code == 200
-  	 	    format.json { render json: response, status: :ok}
+        #logger.info " --- Send ETA GCM response type: #{response.class.name}, response : #{response}"
+        if response[:status_code] == 200
+  	 	    format.json {head :ok}
         else 
           format.json { render json: response, status: :not_found}
         end 
