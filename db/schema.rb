@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20141119091834) do
     t.string   "email"
     t.string   "password"
     t.string   "phoneNumber"
-    t.string   "clientRegistrationId"
+    t.text     "clientRegistrationId"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

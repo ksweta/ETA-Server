@@ -23,7 +23,7 @@ class UsersController < ApplicationController
         format.json { head :ok }
       else        
         error_msg = { :error => "Wrong credential. Please check your credential"}
-        format.json { render json: error_msg, status: :unauthorized}
+        format.json { render json: error_msg, status: :forbidden } #:unauthorized
       end
     end
   end

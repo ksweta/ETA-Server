@@ -1,10 +1,10 @@
 ETAServer::Application.routes.draw do
 
-  get 'notification/sendETA'
-  resources :users
-
+  post 'notification/sendETA'
   post 'users/login'
   post 'users/receipientRegistered'
+  resources :users
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
