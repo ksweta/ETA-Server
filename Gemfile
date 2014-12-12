@@ -5,7 +5,7 @@ ruby '2.0.0'
 gem 'rails', '4.0.3'
 
 # GCM for Android messaging 
-gem 'gcm'
+gem 'gcm', '0.0.9'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
