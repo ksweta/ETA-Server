@@ -57,16 +57,32 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     logger.info " -------- user/create : #{user_params}"
-    @user = User.new(user_params)
+    logger.info " -------- phoneNumber : #{user_params[:phoneNumber]}"
+    @user = User.find_by_phoneNumber(user_params[:phoneNumber])
 
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        # format.json { render action: 'show', status: :created, location: @user }
-        format.json { head :created } 
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+    unless @user.nil?
+      # If user already exists then return conflict error.
+      # If client registration id is different then
+      # update it.
+      if @user.clientRegistrationId != user_params[:clientRegistrationId]
+        @user.update_column(:clientRegistrationId, user_params[:clientRegistrationId])
+      end
+      respond_to do |format|
+        error_msg = { :error => "User(#{user_params[:phoneNumber]}) is already registered with ETA" }
+        format.json { render json: error_msg, status: :conflict }
+      end
+    else 
+      @user = User.new(user_params)
+
+      respond_to do |format|
+        if @user.save
+          format.html { redirect_to @user, notice: 'User was successfully created.' }
+          # format.json { render action: 'show', status: :created, location: @user }
+          format.json { head :created } 
+        else
+          format.html { render action: 'new' }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
